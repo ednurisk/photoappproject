@@ -90,7 +90,7 @@ class BeginPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black, // Buton rengi siyah olacak
+                      backgroundColor: Colors.black, // Buton rengi siyah olacak
                       padding: EdgeInsets.symmetric(
                           horizontal: 50,
                           vertical: 20), // Buton daha geniş olacak
@@ -116,3 +116,4 @@ class BeginPage extends StatelessWidget {
     ));
   }
 }
+
