@@ -43,7 +43,8 @@ class _ImageProcessingPageState extends State<ImageProcessingPage> {
       //Uri.parse('http://172.20.33.167:5000/process-image')
       //Uri.parse('http://172.20.34.143:5000/process-image')
       //Uri.parse('http://192.168.0.27:5000/process-image'),
-      Uri.parse('http://192.168.102.172:8080//process'),
+      //Uri.parse('http://192.168.102.172:8080//process'),
+      Uri.parse('http://192.168.71.172:5050//process'),
     );
 
     request.files.add(
@@ -63,6 +64,7 @@ class _ImageProcessingPageState extends State<ImageProcessingPage> {
     }
   }
 
+/*
   Future<void> _saveImageToGallery() async {
     if (_processedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -90,6 +92,33 @@ class _ImageProcessingPageState extends State<ImageProcessingPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Depolama izni reddedildi!')),
+      );
+    }
+  }
+
+*/
+
+  Future<void> _saveImageToPicturesFolder() async {
+    if (_processedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Kaydedilecek bir işlenmiş görsel yok!')),
+      );
+      return;
+    }
+
+    try {
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final imagePath =
+          '/storage/emulated/0/Documents/photos/processed_image_$timestamp.png';
+      final file = File(imagePath);
+      await file.writeAsBytes(_processedImage!);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Görsel kaydedildi: $imagePath')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Görsel kaydedilemedi: $e')),
       );
     }
   }
@@ -142,7 +171,7 @@ class _ImageProcessingPageState extends State<ImageProcessingPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _saveImageToGallery();
+                _saveImageToPicturesFolder();
               },
               child: Text('Galeride Kaydet'),
             ),
@@ -212,3 +241,4 @@ class _ImageProcessingPageState extends State<ImageProcessingPage> {
     );
   }
 }
+
